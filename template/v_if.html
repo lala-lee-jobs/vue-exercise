@@ -145,19 +145,19 @@
   <p>使用 v-else-if 做出分頁頁籤</p>
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link" href="#">標題一</a>
+      <a class="nav-link" href="#" @click.prevent="link = 'a'" :class="{'active': link === 'a'}">標題一</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">標題二</a>
+      <a class="nav-link" href="#" @click.prevent="link = 'b'" :class="{'active': link === 'b'}">標題二</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">標題三</a>
+      <a class="nav-link" href="#" @click.prevent="link = 'c'" :class="{'active': link === 'c'}">標題三</a>
     </li>
   </ul>
   <div class="content">
-    <div>Ａ</div>
-    <div>Ｂ</div>
-    <div>Ｃ</div>
+    <div v-if="link === 'a'">Ａ</div>
+    <div v-else-if="link === 'b'">Ｂ</div>
+    <div v-else-if="link === 'c'">Ｃ</div>
   </div>
   <hr>
   <h4>KEY</h4>
@@ -192,6 +192,12 @@ var app = new Vue({
     link: 'a',
 
     loginType: 'username'
+  },
+  computed: {
+    toggleActive: function() {
+      console.log('link', this.link);
+      return 'active';
+    }
   },
   methods: {
     toggleLoginType: function () {
