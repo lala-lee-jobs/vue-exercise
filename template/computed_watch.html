@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="/stylesheets/all.css">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/regular.js" integrity="sha384-t7yHmUlwFrLxHXNLstawVRBMeSLcXTbQ5hsd0ifzwGtN7ZF7RZ8ppM7Ldinuoiif" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>    <script src="/javascripts/vendor.js"></script>
-
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>    
+    <script src="/javascripts/vendor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   </head>
   
   <body class="bg-lighter">
@@ -113,17 +114,17 @@
   <p>使用 Computed 來過濾資料。</p>
   <input type="text" class="form-control" v-model="filterText">
   <ul>
-    <li v-for="(item, key) in arrayData" :key="item.age">
+    <li v-for="(item, key) in filterArray" :key="item.age">
       {{ key }} - {{ item.name }} {{ item.age }} 歲 <input type="text">
     </li>
   </ul> 
   <p>使用 Computed 來呈現時間格式。</p>
-  <p></p>
+  <p>{{formatTime}}</p>
   <h4>Watch</h4>
   <p>使用 trigger 來觸發旋轉 box、並在三秒後改變回來</p>
   <div class="box" :class="{'rotate': trigger }"></div>
   <hr>
-  <button class="btn btn-outline-primary">Counter</button>
+  <button class="btn btn-outline-primary" @click="trigger = !trigger">Counter</button>
 </div>
 
 <script>
@@ -148,7 +149,25 @@ var app = new Vue({
     trigger: false,
     newDate: 0
   },
-
+  computed: {
+    filterArray: function() {
+      return this.arrayData.filter(item => item.name.match(this.filterText));
+    },
+    formatTime: function() {
+      console.log('moment', moment);
+      return moment(this.newDate).format('YYYY/MM/DD hh:mm:ss');
+    }
+  },
+  watch: {
+    trigger: function() {
+      setTimeout(() => {
+        this.trigger = false;
+      }, 3000);
+    }
+  },
+  mounted: function() {
+    this.newDate = Math.floor(Date.now());
+  },
   // 解答
   // methods: {
   //   openTrigger: function() {
