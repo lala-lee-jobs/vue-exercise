@@ -128,16 +128,40 @@
     <thead>
     </thead>
     <tbody>
-      <tr v-for="(item, key) in data" :item="item" :key="key">
+      <!-- <row-component v-for="(item, index) in data" :person="item" :key="index"></row-component> -->
+      <tr is="row-component" v-for="(item, index) in data" :person="item" :key="index"></tr>
+      <!-- <tr v-for="(item, key) in data" :item="item" :key="key">
         <td>{{ item.name }}</td>
         <td>{{ item.cash }}</td>
         <td>{{ item.icash }}</td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
 </div>
+<div id="app2"></div>
+
+<script type="text/x-template" id="rowComponentTemplate">
+  <tr>
+    <td>{{ person.name }}</td>
+    <td>{{ person.cash }}</td>
+    <td>{{ person.icash }}</td>
+  </tr>
+</script>
 
 <script>
+
+// 全域註冊
+// Vue.component('row-component', {
+//   template: '#rowComponentTemplate',
+//   props: ['person']
+// });
+
+// 局部註冊
+var child = {
+  template: '#rowComponentTemplate',
+  props: ['person']
+};
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -163,8 +187,27 @@ var app = new Vue({
         icash: 100,
       },
     ]
+  },
+  components: {
+    'row-component': child
   }
 });
+
+var app2 = new Vue({
+  el: '#app2',
+  data: {
+    data: [
+      {
+        name: 'test',
+        cash: 100,
+        icash: 500,
+      }
+    ]
+  },
+  components: {
+    'row-component': child
+  }
+}); 
 </script>
 
 <!-- 
