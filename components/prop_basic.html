@@ -122,28 +122,31 @@
 
 <div id="app">
   <h2>靜態傳遞</h2>
-  <photo></photo>
+  <photo img-url="https://images.unsplash.com/photo-1522204538344-922f76ecc041?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=50e38600a12d623a878983fc5524423f&auto=format&fit=crop&w=1351&q=80"
+  img-title="靜態傳遞"></photo>
   <h2>動態傳遞</h2>
-  <photo></photo>
+  <photo :img-url="url" :img-title="title"></photo>
 </div>
 
 <script type="text/x-template" id="photo">
 <div>
   <img :src="imgUrl" class="img-fluid" alt="" />
-  <p>風景照</p>
+  <p>{{imgTitle}}</p>
 </div>
 </script>
 
 <script>
 Vue.component('photo', {
   // 同學請依據課程內容，自行填寫 Props 的寫法
-  template: '#photo'
+  template: '#photo',
+  props: ['imgUrl', 'imgTitle']
 })
 
 var app = new Vue({
   el: '#app',
   data: {
-    url: 'https://images.unsplash.com/photo-1522204538344-922f76ecc041?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=50e38600a12d623a878983fc5524423f&auto=format&fit=crop&w=1351&q=80'
+    url: 'https://images.unsplash.com/photo-1522204538344-922f76ecc041?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=50e38600a12d623a878983fc5524423f&auto=format&fit=crop&w=1351&q=80',
+    title: '動態傳遞'
   }
 });
 </script>
